@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f4ee;--panel:#ffffff;--ink:#1c1b19;--muted:#6b675f;--line:#e2ddd2;--soft:#efebe2;
+  --accent:#0f6e66;--accent-ink:#ffffff;--accent-soft:#d8ecea;--hl:#e09a2d;--hl-soft:#fbe8c6;
+  --pos:#2a6fdb;--neg:#d2453b;--zero:#f4f2ec;--r:#d2453b;--g:#2f9e57;--b:#2a6fdb;--vio:#7a4fd0;
+  --shadow:0 1px 2px rgba(30,25,15,.06),0 4px 16px rgba(30,25,15,.05);
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#151513;--panel:#1e1d1a;--ink:#ece9e2;--muted:#a19b8f;--line:#35322c;--soft:#272520;
+  --accent:#4fb5aa;--accent-ink:#0d1f1d;--accent-soft:#1b3b38;--hl:#f0b456;--hl-soft:#41321a;
+  --pos:#6ea3ff;--neg:#ff7d72;--zero:#25231f;--r:#ff7d72;--g:#5cc97f;--b:#6ea3ff;--vio:#a985f0;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25);}}
+:root[data-theme="dark"]{
+  --bg:#151513;--panel:#1e1d1a;--ink:#ece9e2;--muted:#a19b8f;--line:#35322c;--soft:#272520;
+  --accent:#4fb5aa;--accent-ink:#0d1f1d;--accent-soft:#1b3b38;--hl:#f0b456;--hl-soft:#41321a;
+  --pos:#6ea3ff;--neg:#ff7d72;--zero:#25231f;--r:#ff7d72;--g:#5cc97f;--b:#6ea3ff;--vio:#a985f0;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25);}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans);}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 16px 48px}
+header.top{margin-bottom:22px}
+.eyebrow{font:500 12px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent);display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.eyebrow a{color:var(--muted);text-decoration:none}.eyebrow a:hover{color:var(--accent)}
+h1{font-size:clamp(26px,4vw,36px);line-height:1.15;margin:8px 0 10px;letter-spacing:-.01em;font-weight:600}
+h2{font-size:19px;margin:0 0 12px;font-weight:600}
+h3{font-size:15px;margin:0 0 8px;font-weight:600}
+.author{font:500 15px var(--sans);color:var(--ink);margin:-4px 0 12px;letter-spacing:.01em}
+.lead{max-width:780px;color:var(--muted);margin:0;font-size:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+.stack{display:flex;flex-direction:column;gap:16px}
+.row{display:flex;gap:16px;flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.mono{font-family:var(--mono)}
+.controls{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+.ctl{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);min-width:0}
+.ctl b{color:var(--ink);font:600 13px var(--mono)}
+.ctl .lab{display:flex;justify-content:space-between;gap:10px}
+select,input[type=number],input[type=text]{font:14px var(--sans);color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:6px 8px;min-height:34px}
+input[type=number]{width:72px;font-family:var(--mono)}
+input[type=range]{accent-color:var(--accent);width:150px}
+.btn{font:500 14px var(--sans);color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:9px;padding:7px 13px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:6px;transition:background .15s,border-color .15s}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.on{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:default}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;flex-wrap:wrap}
+.seg button{font:500 13px var(--sans);background:var(--soft);color:var(--ink);border:0;padding:7px 12px;cursor:pointer;min-height:34px}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--accent);color:var(--accent-ink)}
+.mat{display:inline-grid;gap:3px;font-family:var(--mono)}
+.cell{width:var(--cs,40px);height:var(--cs,40px);display:flex;align-items:center;justify-content:center;border-radius:6px;background:var(--zero);font-size:calc(var(--cs,40px)*.36);position:relative;border:1.5px solid transparent;transition:background .2s,border-color .15s,box-shadow .15s;color:var(--ink);user-select:none}
+.cell.pad{background:transparent;border:1.5px dashed var(--line);color:var(--muted)}
+.cell.win{border-color:var(--hl);box-shadow:0 0 0 2px var(--hl-soft)}
+.cell.cur{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.cell.dim{opacity:.35}
+.cell .w{position:absolute;right:3px;bottom:1px;font-size:calc(var(--cs,40px)*.24);color:var(--hl);font-weight:600}
+.cell.clickable{cursor:pointer}.cell.clickable:hover{border-color:var(--accent)}
+.mlabel{font:600 12px var(--mono);color:var(--muted);margin-bottom:6px;letter-spacing:.03em}
+.formula{font-family:var(--mono);font-size:14px;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;line-height:1.8}
+.formula .res{color:var(--accent);font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:6px;font:600 12px var(--mono);padding:3px 9px;border-radius:999px;background:var(--accent-soft);color:var(--ink)}
+.pill.warn{background:var(--hl-soft)}
+.pill.bad{background:color-mix(in oklab,var(--neg) 22%,transparent)}
+.note{border-left:3px solid var(--accent);padding:8px 12px;background:var(--soft);border-radius:0 8px 8px 0;font-size:14px}
+.note.warn{border-color:var(--hl)}
+.note.bad{border-color:var(--neg)}
+.kpis{display:flex;gap:10px;flex-wrap:wrap}
+.kpi{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:130px}
+.kpi .v{font:600 22px var(--mono);color:var(--ink)}
+.kpi .k{font-size:12px;color:var(--muted)}
+.op{font:600 22px var(--mono);color:var(--muted);align-self:center;padding:0 4px}
+.scrollx{overflow-x:auto;max-width:100%}
+.svgbox svg{width:100%;height:auto;display:block}
+.barrow{display:grid;grid-template-columns:200px 1fr 120px;gap:8px;align-items:center;font-size:13px;margin:6px 0}
+.barrow .b{height:18px;border-radius:5px;background:var(--accent);transition:width .25s}
+.barrow span:last-child{font-family:var(--mono);text-align:right}
+@media (max-width:640px){.barrow{grid-template-columns:110px 1fr 96px}}
+table.t{border-collapse:collapse;font:13px var(--mono);width:100%}
+table.t th,table.t td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+table.t th{color:var(--muted);font-weight:600}
+table.t th:first-child,table.t td:first-child{text-align:left}
+table.t tr.sel td{background:var(--accent-soft)}
+table.t tr.clk{cursor:pointer}table.t tr.clk:hover td{background:var(--soft)}
+footer{margin-top:36px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:14px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer a{color:var(--accent)}
+svg text{font-family:var(--sans)}
+canvas.px{image-rendering:pixelated}
+kbd{font:12px var(--mono);background:var(--soft);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 5px}
+.hidden{display:none!important}
+@media (max-width:640px){.wrap{padding:20px 16px 40px}.card{padding:14px}input[type=range]{width:120px}}
+</style>
+<title>RNN – Modèle de langue au niveau caractère</title>
+<style>
+.tbl{display:grid;gap:4px;font:12px var(--mono);overflow-x:auto}
+.tbl .row{display:grid;grid-template-columns:110px repeat(var(--n),minmax(60px,1fr));gap:4px;align-items:center;min-width:420px}
+.tbl .lab{color:var(--muted)}
+.tbl .c{border:1px solid var(--line);border-radius:6px;padding:4px;text-align:center;min-height:26px}
+.prob{display:flex;flex-direction:column;gap:1px}
+.prob div{display:flex;align-items:center;gap:4px;font-size:11px}
+.prob i{display:inline-block;height:9px;background:var(--b);border-radius:2px}
+.prob div.tg{color:var(--accent);font-weight:700}
+.prob div.tg i{background:var(--accent)}
+.hv{display:flex;gap:1px;justify-content:center}
+.hv span{width:6px;height:18px;border-radius:1px}
+#out{font:15px/1.6 var(--mono);white-space:pre-wrap;background:var(--soft);border-radius:10px;padding:12px;min-height:80px;word-break:break-word}
+#lc svg{max-width:560px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow"><span>Réseaux récurrents</span><a href="index.html">← Toutes les animations</a></div>
+  <h1>Modèle de langue au niveau caractère</h1>
+  <p class="author">Moulay Akhloufi</p>
+  <p class="lead">On entraîne un RNN à prédire le <strong>caractère suivant</strong>. Exemple du cours : vocabulaire [h, e, l, o] et séquence « hello ». En entrée, chaque caractère est un vecteur one-hot ; en sortie, un softmax donne la probabilité de chaque caractère suivant. Le réseau ci-dessous s’entraîne réellement dans votre navigateur.</p>
+</header>
+<div class="stack">
+  <section class="card stack">
+    <div class="controls" id="ctl"></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="tbl" id="tbl"></div>
+    <div class="note" id="note"></div>
+  </section>
+  <section class="card stack">
+    <h2>Perte d’entraînement</h2>
+    <div id="lc" class="svgbox"></div>
+  </section>
+  <section class="card stack">
+    <h2>Génération : échantillonner un caractère à la fois</h2>
+    <div class="controls" id="ctl2"></div>
+    <div id="out"></div>
+    <div class="note">Au moment du test, on tire un caractère selon le softmax, puis on le <strong>réinjecte</strong> comme entrée de l’étape suivante. Une température basse rend la génération prudente et répétitive ; une température haute la rend plus variée mais plus fautive.</div>
+  </section>
+  <section class="card stack">
+    <h2>À retenir</h2>
+    <div class="note">Avec « hello », la paire « l → ? » est ambiguë : après le premier l vient un l, après le second un o. Le caractère courant ne suffit pas : c’est l’<strong>état caché</strong>, qui se souvient de ce qui précède, qui permet de trancher.</div>
+    <div class="note">Entraînement : rétropropagation dans le temps sur des tronçons de 25 caractères, optimiseur Adagrad (comme le <em>min-char-rnn</em> de Karpathy, 2015).</div>
+  </section>
+</div>
+<footer><span>© 2026 Moulay Akhloufi · Deep Learning · Réseaux récurrents</span><a href="index.html">Toutes les animations du module →</a></footer>
+</div>
+<script>
+// ---- utilitaires communs ----
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+function h(tag, attrs = {}, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === 'class') e.className = v;
+    else if (k === 'style' && v && typeof v === 'object') { for (const [sk, sv] of Object.entries(v)) { if (sv == null) continue; sk.startsWith('--') ? e.style.setProperty(sk, sv) : (e.style[sk] = sv); } }
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+    else if (k === 'html') e.innerHTML = v;
+    else if (v !== false && v != null) e.setAttribute(k, v);
+  }
+  for (const c of kids.flat()) if (c != null) e.append(c.nodeType ? c : document.createTextNode(c));
+  return e;
+}
+function fmt(x, d = 2) {
+  if (!isFinite(x)) return x > 0 ? '∞' : '—';
+  let s = (Math.round(x * 10 ** d) / 10 ** d).toString();
+  if (s === '-0') s = '0';
+  if (s.includes('e')) s = x.toExponential(1);
+  return s.replace('.', ',').replace('-', '−');
+}
+function fmtInt(n) { return Math.round(n).toLocaleString('fr-CA').replace(/ | /g, ' '); }
+function fmtM(n) { return n >= 1e9 ? fmt(n / 1e9, 2) + ' G' : n >= 1e6 ? fmt(n / 1e6, 2) + ' M' : n >= 1e3 ? fmt(n / 1e3, 1) + ' k' : fmtInt(n); }
+function par(x) { return x < 0 ? '(' + fmt(x) + ')' : fmt(x); }
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+function divColor(v, m) {
+  if (!m) return 'var(--zero)';
+  const t = clamp(Math.abs(v) / m, 0, 1);
+  return `color-mix(in oklab, ${v < 0 ? 'var(--neg)' : 'var(--pos)'} ${Math.round(t * 70)}%, var(--zero))`;
+}
+function seqColor(v, m, c = 'var(--accent)', top = 75) {
+  const t = m ? clamp(v / m, 0, 1) : 0;
+  return `color-mix(in oklab, ${c} ${Math.round(t * top)}%, var(--zero))`;
+}
+function rng(seed = 1) { let s = seed >>> 0; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); }
+function gauss(R) { let u = 0; while (!u) u = R(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * R()); }
+const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const isDark = () => matchMedia('(prefers-color-scheme: dark)').matches;
+class Player {
+  constructor({ n, onStep, speed = 900 }) { this.n = n; this.i = 0; this.onStep = onStep; this.speed = speed; this.t = null; }
+  go(i) { this.i = ((i % this.n) + this.n) % this.n; this.onStep(this.i); }
+  next() { this.go(this.i + 1); } prev() { this.go(this.i - 1); }
+  play() { this.stop(); this.t = setInterval(() => this.next(), this.speed); this.playing = true; }
+  stop() { clearInterval(this.t); this.t = null; this.playing = false; }
+  toggle() { this.playing ? this.stop() : this.play(); return this.playing; }
+  setSpeed(ms) { this.speed = ms; if (this.playing) this.play(); }
+}
+function playerBar(p, { extra = [], prevNext = true } = {}) {
+  const play = h('button', { class: 'btn primary', onclick: () => { play.textContent = p.toggle() ? '❚❚ Pause' : '▶ Lecture'; } }, '▶ Lecture');
+  const sp = h('input', { type: 'range', min: 100, max: 2000, step: 50, value: 2100 - p.speed, oninput: e => p.setSpeed(2100 - +e.target.value), 'aria-label': 'Vitesse' });
+  const kids = prevNext ? [h('button', { class: 'btn', onclick: () => { bar.stopUI(); p.prev(); } }, '◀ Précédent'), play, h('button', { class: 'btn', onclick: () => { bar.stopUI(); p.next(); } }, 'Suivant ▶')] : [play];
+  const bar = h('div', { class: 'controls' }, ...kids, h('label', { class: 'ctl' }, h('span', {}, 'Vitesse'), sp), ...extra);
+  bar.stopUI = () => { p.stop(); play.textContent = '▶ Lecture'; };
+  return bar;
+}
+function slider({ label, min, max, step = 1, value, onInput, fmtv = v => v, width }) {
+  const out = h('b', {}, fmtv(value));
+  const inp = h('input', { type: 'range', min, max, step, value, style: width ? { width } : null });
+  inp.addEventListener('input', () => { out.textContent = fmtv(+inp.value); onInput(+inp.value); });
+  const w = h('label', { class: 'ctl' }, h('span', { class: 'lab' }, h('span', {}, label), out), inp);
+  w.input = inp; w.set = v => { inp.value = v; out.textContent = fmtv(+v); };
+  return w;
+}
+function segmented(options, value, onChange) {
+  const s = h('div', { class: 'seg', role: 'group' }); const b2 = new Map();
+  const btns = options.map(([v, l]) => { const b = h('button', { class: v === value ? 'on' : '', onclick: () => { btns.forEach(x => x.classList.remove('on')); b.classList.add('on'); onChange(v); } }, l); b2.set(v, b); return b; });
+  s.append(...btns); s.set = v => { btns.forEach(b => b.classList.remove('on')); b2.get(v) && b2.get(v).classList.add('on'); };
+  return s;
+}
+function matrix(rows, cols, { cs = 40, gap = 3, cls = '' } = {}) {
+  const el = h('div', { class: 'mat ' + cls, style: { gridTemplateColumns: `repeat(${cols}, var(--cs))`, '--cs': cs + 'px', gap: gap + 'px' } });
+  const cells = [];
+  for (let r = 0; r < rows; r++) { cells.push([]); for (let c = 0; c < cols; c++) { const d = h('div', { class: 'cell' }); el.append(d); cells[r].push(d); } }
+  return { el, cells };
+}
+// image en niveaux de gris (Float32Array w×h, valeurs 0..1 ou signées) → canvas
+function grayCanvas(data, w, hh, { scale = 4, mode = 'gray', max = null, el = null } = {}) {
+  const cv = el || h('canvas', { class: 'px' }); cv.width = w; cv.height = hh;
+  cv.style.width = w * scale + 'px'; cv.style.height = hh * scale + 'px';
+  const ctx = cv.getContext('2d'), im = ctx.createImageData(w, hh);
+  let m = max; if (m == null) { m = 1e-9; for (const v of data) m = Math.max(m, Math.abs(v)); }
+  for (let i = 0; i < w * hh; i++) {
+    const v = data[i]; let c;
+    if (mode === 'gray') { const g = 255 * clamp(v / m, 0, 1); c = [g, g, g]; }
+    else if (mode === 'heat') { const t = clamp(v / m, 0, 1); c = [255 * Math.min(1, t * 1.6), 255 * clamp(t * 1.6 - .5, 0, 1), 60 * (1 - t)]; }
+    else { const t = clamp(v / m, -1, 1); c = t >= 0 ? [255 - 200 * t, 255 - 130 * t, 255] : [255, 255 + 190 * t, 255 + 180 * t]; }
+    im.data[4 * i] = c[0]; im.data[4 * i + 1] = c[1]; im.data[4 * i + 2] = c[2]; im.data[4 * i + 3] = 255;
+  }
+  ctx.putImageData(im, 0, 0); return cv;
+}
+// tracé de courbes simple en SVG
+function lineChart({ series, w = 520, hgt = 240, xmin, xmax, ymin, ymax, xlabel = '', ylabel = '', pad = 38, extra = '', xticks = 5, yticks = 4, yfmt = v => fmt(v, 2), xfmt = v => fmt(v, 1) }) {
+  const X = x => pad + (x - xmin) / (xmax - xmin) * (w - pad - 12), Y = y => hgt - pad + 8 - (y - ymin) / (ymax - ymin) * (hgt - pad - 4);
+  let s = `<svg viewBox="0 0 ${w} ${hgt + 10}">`;
+  for (let i = 0; i <= yticks; i++) { const v = ymin + (ymax - ymin) * i / yticks; s += `<line x1="${pad}" x2="${w - 12}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${pad - 6}" y="${Y(v) + 4}" font-size="11" text-anchor="end" fill="var(--muted)">${yfmt(v)}</text>`; }
+  for (let i = 0; i <= xticks; i++) { const v = xmin + (xmax - xmin) * i / xticks; s += `<text x="${X(v)}" y="${hgt + 6}" font-size="11" text-anchor="middle" fill="var(--muted)">${xfmt(v)}</text>`; }
+  if (xlabel) s += `<text x="${w - 12}" y="${hgt - pad + 2}" font-size="11" text-anchor="end" fill="var(--muted)">${xlabel}</text>`;
+  if (ylabel) s += `<text x="${pad + 4}" y="12" font-size="11" fill="var(--muted)">${ylabel}</text>`;
+  for (const sr of series) {
+    if (sr.pts.length < 2 && !sr.dots) continue;
+    if (sr.dots) for (const [x, y] of sr.pts) s += `<circle cx="${X(x)}" cy="${Y(clamp(y, ymin, ymax))}" r="${sr.r || 3.5}" fill="${sr.color}" fill-opacity="${sr.op || 1}"/>`;
+    else s += `<path d="${sr.pts.map(([x, y], i) => (i ? 'L' : 'M') + X(x).toFixed(1) + ',' + Y(clamp(y, ymin - (ymax - ymin), ymax + (ymax - ymin))).toFixed(1)).join('')}" fill="${sr.fill || 'none'}" fill-opacity="${sr.fillop || .2}" stroke="${sr.color}" stroke-width="${sr.width || 2.5}" ${sr.dash ? `stroke-dasharray="${sr.dash}"` : ''}/>`;
+  }
+  return s + (typeof extra === 'function' ? extra(X, Y) : extra) + '</svg>';
+}
+
+const CORP = {
+  hello: 'hello',
+  texte: 'le réseau lit le texte un caractère à la fois. il apprend que les mots sont séparés par des espaces, que la phrase se termine par un point, et que certaines lettres se suivent plus souvent que d’autres. au début, il écrit des suites de lettres au hasard. après un peu d’entraînement, il forme des mots qui ressemblent à du français. ',
+};
+let corpus = 'hello', H = 8, net, it = 0, timer = null, hist = [], temp = 1;
+function init() {
+  const text = CORP[corpus], V = corpus === 'hello' ? ['h', 'e', 'l', 'o'] : [...new Set(text)].sort(); H = corpus === 'hello' ? 8 : 64;
+  const R = rng(3), m = (r, c, s) => Float64Array.from({ length: r * c }, () => gauss(R) * s);
+  net = { text, V, n: V.length, ix: Object.fromEntries(V.map((c, i) => [c, i])), Wxh: m(H, V.length, .1), Whh: m(H, H, .1), Why: m(V.length, H, .1), bh: new Float64Array(H), by: new Float64Array(V.length), hprev: new Float64Array(H), p: 0 };
+  net.mem = ['Wxh', 'Whh', 'Why', 'bh', 'by'].map(k => new Float64Array(net[k].length));
+  it = 0; hist = [];
+}
+function fwd(inputs, h0) { // renvoie états, probabilités
+  const n = net.n, hs = [h0], ps = [];
+  for (const c of inputs) { const h = new Float64Array(H), hp = hs[hs.length - 1];
+    for (let i = 0; i < H; i++) { let z = net.bh[i] + net.Wxh[i * n + c]; for (let j = 0; j < H; j++) z += net.Whh[i * H + j] * hp[j]; h[i] = Math.tanh(z); }
+    const y = new Float64Array(n); let mx = -1e9; for (let k = 0; k < n; k++) { let z = net.by[k]; for (let i = 0; i < H; i++) z += net.Why[k * H + i] * h[i]; y[k] = z; mx = Math.max(mx, z); }
+    let s = 0; for (let k = 0; k < n; k++) { y[k] = Math.exp(y[k] - mx); s += y[k]; } for (let k = 0; k < n; k++) y[k] /= s;
+    hs.push(h); ps.push(y); }
+  return { hs, ps };
+}
+function trainStep() {
+  const { text, ix, n } = net, S = corpus === 'hello' ? 4 : 25;
+  if (corpus === 'hello') { net.p = 0; net.hprev = new Float64Array(H); }
+  if (net.p + S + 1 > text.length) { net.p = 0; net.hprev = new Float64Array(H); }
+  const inp = [...text.slice(net.p, net.p + S)].map(c => ix[c]), tg = [...text.slice(net.p + 1, net.p + S + 1)].map(c => ix[c]);
+  const { hs, ps } = fwd(inp, net.hprev); let loss = 0;
+  const g = { Wxh: new Float64Array(net.Wxh.length), Whh: new Float64Array(net.Whh.length), Why: new Float64Array(net.Why.length), bh: new Float64Array(H), by: new Float64Array(n) };
+  let dhn = new Float64Array(H);
+  for (let t = inp.length - 1; t >= 0; t--) {
+    loss -= Math.log(ps[t][tg[t]]); const dy = Float64Array.from(ps[t]); dy[tg[t]] -= 1;
+    const h = hs[t + 1], hp = hs[t], dh = Float64Array.from(dhn);
+    for (let k = 0; k < n; k++) { g.by[k] += dy[k]; for (let i = 0; i < H; i++) { g.Why[k * H + i] += dy[k] * h[i]; dh[i] += net.Why[k * H + i] * dy[k]; } }
+    const dz = dh.map((v, i) => v * (1 - h[i] * h[i])); dhn = new Float64Array(H);
+    for (let i = 0; i < H; i++) { g.bh[i] += dz[i]; g.Wxh[i * n + inp[t]] += dz[i]; for (let j = 0; j < H; j++) { g.Whh[i * H + j] += dz[i] * hp[j]; dhn[j] += net.Whh[i * H + j] * dz[i]; } }
+  }
+  ['Wxh', 'Whh', 'Why', 'bh', 'by'].forEach((k, q) => { const P = net[k], G = g[k], M = net.mem[q]; for (let i = 0; i < P.length; i++) { const d = Math.max(-5, Math.min(5, G[i])); M[i] += d * d; P[i] -= (corpus === 'hello' ? .05 : .1) * d / Math.sqrt(M[i] + 1e-8); } });
+  net.hprev = hs[hs.length - 1]; net.p += S; it++;
+  return loss / inp.length;
+}
+function sample(seed, len, T) { const R = Math.random; let h = new Float64Array(H), c = net.ix[seed] ?? 0, out = net.V[c];
+  for (let t = 0; t < len; t++) { const { hs, ps } = fwd([c], h); h = hs[1]; const p = ps[0].map(v => Math.pow(v, 1 / T)); const s = p.reduce((a, b) => a + b, 0); let r = R() * s; c = 0; while (r > p[c] && c < p.length - 1) { r -= p[c]; c++; } out += net.V[c]; }
+  return out; }
+const bt = h('button', { class: 'btn primary', onclick: toggle }, '▶ Entraîner');
+$('#ctl').append(segmented([['hello', '« hello » (cours)'], ['texte', 'Petit texte français']], corpus, v => { corpus = v; stop(); init(); draw(); }), bt,
+  h('button', { class: 'btn', onclick: () => { for (let k = 0; k < (corpus === 'hello' ? 1 : 5); k++) hist.push([it, trainStep()]); draw(); } }, '+1 itération'),
+  h('button', { class: 'btn', onclick: () => { stop(); init(); draw(); } }, '↺ Réinitialiser'));
+$('#ctl2').append(slider({ label: 'Température', min: .2, max: 2, step: .1, value: temp, fmtv: v => fmt(v, 1), onInput: v => temp = v }),
+  h('button', { class: 'btn primary', onclick: () => { $('#out').textContent = sample(corpus === 'hello' ? 'h' : 'l', corpus === 'hello' ? 4 : 220, temp); } }, '✎ Générer'));
+function stop() { clearInterval(timer); timer = null; bt.textContent = '▶ Entraîner'; }
+function toggle() { if (timer) return stop(); bt.textContent = '❚❚ Pause'; timer = setInterval(() => { const per = corpus === 'hello' ? 1 : 8; let l = 0; for (let k = 0; k < per; k++) l += trainStep(); hist.push([it, l / per]); if (hist.length > 400) hist = hist.filter((_, i) => i % 2 === 0); draw(); if ((corpus === 'hello' && it >= 300) || it > 20000) stop(); }, corpus === 'hello' ? 60 : 30); }
+function draw() {
+  const show = 'hello', inp = [...show.slice(0, 4)], tg = [...show.slice(1)];
+  const last = hist.length ? hist[hist.length - 1][1] : NaN;
+  $('#kpis').innerHTML = `<div class="kpi"><div class="v">${fmtInt(it)}</div><div class="k">itérations</div></div><div class="kpi"><div class="v">${isFinite(last) ? fmt(last, 3) : '—'}</div><div class="k">perte moyenne par caractère</div></div><div class="kpi"><div class="v">${net.n} / ${H}</div><div class="k">taille du vocabulaire / de l’état caché</div></div><div class="kpi"><div class="v">${fmt(Math.log(net.n), 2)}</div><div class="k">perte au hasard (ln ${net.n})</div></div>`;
+  if (corpus === 'hello') {
+    const ids = inp.map(c => net.ix[c]), { hs, ps } = fwd(ids, new Float64Array(H));
+    const cols = inp.length, row = (lab, cells) => `<div class="row" style="--n:${cols}"><div class="lab">${lab}</div>${cells.join('')}</div>`;
+    $('#tbl').innerHTML = row('entrée', inp.map(c => `<div class="c">« ${c} »<br><span class="muted">[${net.V.map(v => v === c ? 1 : 0).join(',')}]</span></div>`))
+      + row('état caché h', hs.slice(1).map(h => `<div class="c"><div class="hv">${[...h].map(v => `<span style="background:${divColor(v, 1)}"></span>`).join('')}</div></div>`))
+      + row('softmax', ps.map((p, t) => `<div class="c prob">${net.V.map((v, k) => `<div class="${v === tg[t] ? 'tg' : ''}"><span style="width:14px">${v}</span><i style="width:${Math.round(40 * p[k])}px"></i>${p[k].toFixed(2).replace('.', ',')}</div>`).join('')}</div>`))
+      + row('cible', tg.map(c => `<div class="c" style="color:var(--accent);font-weight:700">« ${c} »</div>`));
+    const pl = ps.map((p, t) => p[net.ix[tg[t]]]);
+    $('#note').innerHTML = it === 0 ? 'Réseau non entraîné : le softmax est presque uniforme (≈ 0,25 partout). Lancez l’entraînement.' : `Probabilité donnée au bon caractère : ${pl.map((v, t) => `${inp[t]}→${tg[t]} : <b>${fmt(v, 2)}</b>`).join(' · ')}. ` + (pl[2] > .8 && pl[3] > .8 ? 'Le réseau distingue les deux « l » grâce à son état caché.' : 'Observez les colonnes 3 et 4 : même entrée « l », cibles différentes.');
+  } else { $('#tbl').innerHTML = ''; $('#note').innerHTML = `Corpus de ${net.text.length} caractères, ${net.n} symboles différents. Entraînez quelques milliers d’itérations puis générez du texte ci-dessous : on voit apparaître des espaces, des mots courts, puis des mots du texte.`; }
+  $('#lc').innerHTML = hist.length > 1 ? lineChart({ series: [{ pts: hist, color: 'var(--accent)' }], w: 560, hgt: 200, xmin: 0, xmax: Math.max(10, it), ymin: 0, ymax: Math.ceil(Math.log(net.n) * 1.2), xlabel: 'itérations', xticks: 4, yticks: 4, xfmt: v => fmtInt(v), yfmt: v => fmt(v, 1) }) : '<p class="small muted">Lancez l’entraînement.</p>';
+}
+init(); draw();
+</script>
+</body>
+</html>

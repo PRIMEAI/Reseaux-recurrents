@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f4ee;--panel:#ffffff;--ink:#1c1b19;--muted:#6b675f;--line:#e2ddd2;--soft:#efebe2;
+  --accent:#0f6e66;--accent-ink:#ffffff;--accent-soft:#d8ecea;--hl:#e09a2d;--hl-soft:#fbe8c6;
+  --pos:#2a6fdb;--neg:#d2453b;--zero:#f4f2ec;--r:#d2453b;--g:#2f9e57;--b:#2a6fdb;--vio:#7a4fd0;
+  --shadow:0 1px 2px rgba(30,25,15,.06),0 4px 16px rgba(30,25,15,.05);
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#151513;--panel:#1e1d1a;--ink:#ece9e2;--muted:#a19b8f;--line:#35322c;--soft:#272520;
+  --accent:#4fb5aa;--accent-ink:#0d1f1d;--accent-soft:#1b3b38;--hl:#f0b456;--hl-soft:#41321a;
+  --pos:#6ea3ff;--neg:#ff7d72;--zero:#25231f;--r:#ff7d72;--g:#5cc97f;--b:#6ea3ff;--vio:#a985f0;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25);}}
+:root[data-theme="dark"]{
+  --bg:#151513;--panel:#1e1d1a;--ink:#ece9e2;--muted:#a19b8f;--line:#35322c;--soft:#272520;
+  --accent:#4fb5aa;--accent-ink:#0d1f1d;--accent-soft:#1b3b38;--hl:#f0b456;--hl-soft:#41321a;
+  --pos:#6ea3ff;--neg:#ff7d72;--zero:#25231f;--r:#ff7d72;--g:#5cc97f;--b:#6ea3ff;--vio:#a985f0;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25);}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans);}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 16px 48px}
+header.top{margin-bottom:22px}
+.eyebrow{font:500 12px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent);display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.eyebrow a{color:var(--muted);text-decoration:none}.eyebrow a:hover{color:var(--accent)}
+h1{font-size:clamp(26px,4vw,36px);line-height:1.15;margin:8px 0 10px;letter-spacing:-.01em;font-weight:600}
+h2{font-size:19px;margin:0 0 12px;font-weight:600}
+h3{font-size:15px;margin:0 0 8px;font-weight:600}
+.author{font:500 15px var(--sans);color:var(--ink);margin:-4px 0 12px;letter-spacing:.01em}
+.lead{max-width:780px;color:var(--muted);margin:0;font-size:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+.stack{display:flex;flex-direction:column;gap:16px}
+.row{display:flex;gap:16px;flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.mono{font-family:var(--mono)}
+.controls{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+.ctl{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);min-width:0}
+.ctl b{color:var(--ink);font:600 13px var(--mono)}
+.ctl .lab{display:flex;justify-content:space-between;gap:10px}
+select,input[type=number],input[type=text]{font:14px var(--sans);color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:6px 8px;min-height:34px}
+input[type=number]{width:72px;font-family:var(--mono)}
+input[type=range]{accent-color:var(--accent);width:150px}
+.btn{font:500 14px var(--sans);color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:9px;padding:7px 13px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:6px;transition:background .15s,border-color .15s}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.on{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:default}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;flex-wrap:wrap}
+.seg button{font:500 13px var(--sans);background:var(--soft);color:var(--ink);border:0;padding:7px 12px;cursor:pointer;min-height:34px}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--accent);color:var(--accent-ink)}
+.mat{display:inline-grid;gap:3px;font-family:var(--mono)}
+.cell{width:var(--cs,40px);height:var(--cs,40px);display:flex;align-items:center;justify-content:center;border-radius:6px;background:var(--zero);font-size:calc(var(--cs,40px)*.36);position:relative;border:1.5px solid transparent;transition:background .2s,border-color .15s,box-shadow .15s;color:var(--ink);user-select:none}
+.cell.pad{background:transparent;border:1.5px dashed var(--line);color:var(--muted)}
+.cell.win{border-color:var(--hl);box-shadow:0 0 0 2px var(--hl-soft)}
+.cell.cur{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.cell.dim{opacity:.35}
+.cell .w{position:absolute;right:3px;bottom:1px;font-size:calc(var(--cs,40px)*.24);color:var(--hl);font-weight:600}
+.cell.clickable{cursor:pointer}.cell.clickable:hover{border-color:var(--accent)}
+.mlabel{font:600 12px var(--mono);color:var(--muted);margin-bottom:6px;letter-spacing:.03em}
+.formula{font-family:var(--mono);font-size:14px;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;line-height:1.8}
+.formula .res{color:var(--accent);font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:6px;font:600 12px var(--mono);padding:3px 9px;border-radius:999px;background:var(--accent-soft);color:var(--ink)}
+.pill.warn{background:var(--hl-soft)}
+.pill.bad{background:color-mix(in oklab,var(--neg) 22%,transparent)}
+.note{border-left:3px solid var(--accent);padding:8px 12px;background:var(--soft);border-radius:0 8px 8px 0;font-size:14px}
+.note.warn{border-color:var(--hl)}
+.note.bad{border-color:var(--neg)}
+.kpis{display:flex;gap:10px;flex-wrap:wrap}
+.kpi{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:130px}
+.kpi .v{font:600 22px var(--mono);color:var(--ink)}
+.kpi .k{font-size:12px;color:var(--muted)}
+.op{font:600 22px var(--mono);color:var(--muted);align-self:center;padding:0 4px}
+.scrollx{overflow-x:auto;max-width:100%}
+.svgbox svg{width:100%;height:auto;display:block}
+.barrow{display:grid;grid-template-columns:200px 1fr 120px;gap:8px;align-items:center;font-size:13px;margin:6px 0}
+.barrow .b{height:18px;border-radius:5px;background:var(--accent);transition:width .25s}
+.barrow span:last-child{font-family:var(--mono);text-align:right}
+@media (max-width:640px){.barrow{grid-template-columns:110px 1fr 96px}}
+table.t{border-collapse:collapse;font:13px var(--mono);width:100%}
+table.t th,table.t td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+table.t th{color:var(--muted);font-weight:600}
+table.t th:first-child,table.t td:first-child{text-align:left}
+table.t tr.sel td{background:var(--accent-soft)}
+table.t tr.clk{cursor:pointer}table.t tr.clk:hover td{background:var(--soft)}
+footer{margin-top:36px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:14px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer a{color:var(--accent)}
+svg text{font-family:var(--sans)}
+canvas.px{image-rendering:pixelated}
+kbd{font:12px var(--mono);background:var(--soft);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 5px}
+.hidden{display:none!important}
+@media (max-width:640px){.wrap{padding:20px 16px 40px}.card{padding:14px}input[type=range]{width:120px}}
+</style>
+<title>Réseaux récurrents : RNN, LSTM et GRU</title>
+<style>
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.item{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:inherit;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);transition:border-color .15s,transform .15s}
+.item:hover{border-color:var(--accent);transform:translateY(-2px)}
+.item .num{font:600 12px var(--mono);color:var(--accent)}
+.item .t{font-weight:600;font-size:16px}
+.item .d{color:var(--muted);font-size:14px}
+.item .s{font:12px var(--mono);color:var(--accent);margin-top:auto;padding-top:8px;border-top:1px solid var(--line);word-break:break-all}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow"><span>Deep Learning · Animations interactives</span><a href="https://primeai.github.io/Apprentissage-Profond/">← Apprentissage profond – Animations</a></div>
+  <h1>Réseaux récurrents : RNN, LSTM et GRU</h1>
+  <p class="author">Moulay Akhloufi</p>
+  <p class="lead">Quatorze animations interactives qui suivent l’ordre du cours : séquences, RNN pas à pas, graphe déroulé, modèle de langue entraîné en direct, rétropropagation dans le temps, gradient qui disparaît, attention dans un seq2seq, légende d’image, LSTM et GRU.</p>
+</header>
+<div class="list" id="list"></div>
+<footer><span>© 2026 Moulay Akhloufi · Deep Learning · Réseaux récurrents : RNN, LSTM et GRU</span><a href="https://primeai.github.io/Apprentissage-Profond/">Apprentissage profond – Animations →</a></footer>
+</div>
+<script>
+const P = [["RNN_Types_Sequences.html", "Ce que traite un réseau récurrent", "Un-vers-un, un-vers-plusieurs, plusieurs-vers-un, plusieurs-vers-plusieurs : chaque configuration animée avec son exemple (légende, sentiment, traduction, vidéo)."], ["RNN_Pas_a_Pas.html", "Le RNN pas à pas", "« ce film est génial » lu mot par mot : hₜ = tanh(W_hh hₜ₋₁ + W_xh xₜ) avec les nombres, les mêmes poids à chaque étape, puis le sentiment."], ["RNN_Graphe_Deroule.html", "Le graphe de calcul déroulé", "La cellule f_W copiée à chaque étape avec la même W : passe avant, puis rétropropagation qui somme les contributions au gradient."], ["RNN_Multicouches.html", "RNN multicouches", "Grille profondeur × temps : ordre de calcul couche par couche, instant par instant ou par diagonales, et nombre de paramètres."], ["RNN_Modele_Caracteres.html", "Modèle de langue au niveau caractère", "« hello » avec le vocabulaire [h, e, l, o] : un RNN s’entraîne en direct, puis génère du texte caractère par caractère."], ["RNN_BPTT_Tronquee.html", "Rétropropagation dans le temps tronquée", "BPTT complète ou par tronçons : l’état passe d’un tronçon au suivant, le gradient non. Mémoire et portée comparées."], ["RNN_Gradient_Disparait.html", "Le gradient qui disparaît (ou explose)", "Simulation réelle de ‖∂h_T/∂h₀‖ selon l’échelle de W_hh, avec ou sans tanh."], ["RNN_Ecretage_Gradient.html", "L’écrêtage du gradient", "Une falaise dans la surface de perte : la descente est éjectée sans écrêtage, et passe avec g ← g · τ / ‖g‖."], ["Seq2Seq_Goulot_Attention.html", "Seq2seq : le goulot et l’attention", "Un seul vecteur c contre l’attention de Bahdanau : poids α à chaque mot produit et carte d’alignement « chat noir » → « black cat »."], ["RNN_Legende_Image.html", "Légende d’image pas à pas", "CNN + RNN : de &lt;DÉBUT&gt; à &lt;FIN&gt;, probabilités du mot suivant, choix du plus probable ou tirage aléatoire."], ["LSTM_Cellule_Pas_a_Pas.html", "La cellule LSTM pas à pas", "Portes d’oubli, d’entrée et de sortie avec l’exemple du cours : 1,5 → 1,51 → 0,635. Toutes les valeurs sont réglables."], ["LSTM_Flux_Gradient.html", "LSTM : pourquoi le gradient passe mieux", "∏ fₜ par la cellule contre W_hh · tanh′ dans un RNN simple : le « tapis roulant » garde l’information sur 100 étapes."], ["GRU_Pas_a_Pas.html", "La cellule GRU pas à pas", "Portes r et z, candidat h̃, et la convention inversée de PyTorch et Keras."], ["RNN_LSTM_GRU_Comparaison.html", "RNN, LSTM ou GRU ?", "Calculateur de paramètres k · (n(n + m) + n) selon la formule du cours, PyTorch ou Keras, et tableau comparatif."]];
+const L = document.getElementById('list');
+P.forEach(([f, t, d], i) => { const a = document.createElement('a'); a.className = 'item'; a.href = f;
+  a.innerHTML = `<span class="num">${String(i + 1).padStart(2, '0')}</span><span class="t">${t}</span><span class="d">${d}</span><span class="s">${f}</span>`; L.append(a); });
+</script>
+</body>
+</html>
